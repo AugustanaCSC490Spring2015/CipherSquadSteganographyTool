@@ -2,58 +2,62 @@ package edu.augustana.csc490.steganographytool;
 
 
 import android.content.Intent;
-import android.view.View;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 
-public class MainActivity extends ActionBarActivity {
+
+public class encode extends ActionBarActivity {
+
+    private final int SELECT_PHOTO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_encode);
+
+        ImageButton imageSelectorButton = (ImageButton) findViewById(R.id.selectImageButton);
+        imageSelectorButton.setOnClickListener(imageSelectorListener);
 
         Button encodeButton = (Button) findViewById(R.id.encodeButton);
         encodeButton.setOnClickListener(encodeButtonListener);
 
-        Button decodeButton = (Button) findViewById(R.id.decodeButton);
-        decodeButton.setOnClickListener(decodeButtonListener);
+        EditText messageTextView = (EditText) findViewById(R.id.messageEditText);
+
     }
 
-    View.OnClickListener encodeButtonListener = new View.OnClickListener() {
+
+    View.OnClickListener encodeButtonListener = new View.OnClickListener(){
         @Override
-        public void onClick(View v) {
-            Intent encodeIntent = new Intent(MainActivity.this, encode.class);
-            startActivity(encodeIntent);
+        public void onClick(View view){
+
         }
     };
 
-
-    View.OnClickListener decodeButtonListener = new View.OnClickListener() {
+    //Listener to select image to encode the message into
+    View.OnClickListener imageSelectorListener = new View.OnClickListener(){
         @Override
-        public void onClick(View v) {
-            Intent decodeIntent = new Intent(MainActivity.this, decode.class);
-            startActivity(decodeIntent);
+        public void onClick(View view){
+            Intent imageSelectorIntent = new Intent(Intent.ACTION_PICK);
+            imageSelectorIntent.setType("image/*");
+            startActivityForResult(imageSelectorIntent, SELECT_PHOTO);
         }
+
     };
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-
-
+        getMenuInflater().inflate(R.menu.menu_encode, menu);
         return true;
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -69,6 +73,4 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }
