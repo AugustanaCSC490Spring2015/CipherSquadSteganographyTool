@@ -16,6 +16,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".encode"
+            android:label="@string/title_activity_encode" >
+            <intent-filter>
+                <action android:name="android.intent.action.encode" />
+
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".decode"
+            android:label="@string/title_activity_decode" >
+            <intent-filter>
+                <action android:name="android.intent.action.decode" />
+
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
