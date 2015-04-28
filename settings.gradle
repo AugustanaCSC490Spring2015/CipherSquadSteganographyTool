@@ -1,1 +1,3 @@
 include ':app'
+//include ':lib:F5Android-f5buffers'
+include ':f5Android'

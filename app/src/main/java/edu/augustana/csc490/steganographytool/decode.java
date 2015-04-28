@@ -1,8 +1,13 @@
 package edu.augustana.csc490.steganographytool;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,10 +15,29 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import info.guardianproject.f5android.plugins.f5.Extract;
+import info.guardianproject.f5android.plugins.PluginNotificationListener;
+import info.guardianproject.f5android.plugins.f5.Extract.ExtractionListener;
+import info.guardianproject.f5android.stego.StegoProcessThread;
+import info.guardianproject.f5android.stego.StegoProcessor;
+import info.guardianproject.f5android.stego.StegoProcessorListener;
 
-public class decode extends ActionBarActivity {
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 
+
+public class decode extends ActionBarActivity implements PluginNotificationListener, ExtractionListener, StegoProcessorListener {
+    public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
     final private int SELECT_PHOTO = 1;
+    public String path_to_decode_image;
+    public Activity a;
+    public ContentResolver cr;
+    public File dump;
+    public byte[] seed = new String("This is hopefully Temporary").getBytes();
+    public StegoProcessor stego_processor;
+    TextView messageTextView;
+    String message;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +50,20 @@ public class decode extends ActionBarActivity {
         Button decodeButton = (Button) findViewById(R.id.decodeButton);
         decodeButton.setOnClickListener(decodeButtonListener);
 
-        TextView messageTextView = (TextView) findViewById(R.id.displayTextView);
+        messageTextView = (TextView) findViewById(R.id.displayTextView);
+        a = this;
+        cr = getContentResolver();
+        dump = new File(DUMP);
+        if(!dump.exists())
+            dump.mkdir();
+        stego_processor = new StegoProcessor(a);
     }
 
     View.OnClickListener decodeButtonListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
-
+            Extract extract = new Extract(a, path_to_decode_image, seed);
+            stego_processor.addThread((StegoProcessThread) extract, true);
         }
     };
 
@@ -45,6 +76,21 @@ public class decode extends ActionBarActivity {
             startActivityForResult(imageSelectorIntent, SELECT_PHOTO);
         }
     };
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == SELECT_PHOTO) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+
+                Uri cover_image_uri = data.getData();
+                Log.v("this is a program", "made it out of gallery");
+
+                path_to_decode_image = IO.pullPathFromUri(a, cover_image_uri, cr);
+                Log.v("this is a program", " "+path_to_decode_image);
+                //cover_image_file = new File(path_to_cover_image);
+            }
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -66,4 +112,31 @@ public class decode extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void onExtractionResult(ByteArrayOutputStream baos){
+        message = new String(baos.toByteArray());
+        stego_processor.destroy();
+
+    }
+    public void onFailure(){}
+
+    public void onUpdate(String with_message){
+        String temp;
+        if(with_message==null){
+            temp="nothing here";
+        }else{
+            temp = with_message;
+        }
+        Log.v("update", temp);
+    }
+    public void onProcessorQueueAborted(){
+        Log.v("The Message: ", message);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                messageTextView.setText(message);
+            }
+        });
+    }
+
 }

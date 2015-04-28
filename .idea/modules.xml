@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CipherSquadSteganographyTool.iml" filepath="$PROJECT_DIR$/CipherSquadSteganographyTool.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/f5Android/f5Android.iml" filepath="$PROJECT_DIR$/f5Android/f5Android.iml" />
     </modules>
   </component>
 </project>

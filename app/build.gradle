@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "edu.augustana.csc490.steganographytool"
@@ -22,4 +22,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
+    //compile project(':lib:F5Android-f5buffers')
+    //compile filetree
+    //compile project(':lib:F5Android-f5buffers')
+    compile project(':f5Android')
 }
