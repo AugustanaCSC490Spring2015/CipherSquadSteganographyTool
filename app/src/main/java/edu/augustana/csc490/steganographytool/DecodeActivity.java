@@ -26,7 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 
-public class DecodeActivity extends ActionBarActivity implements PluginNotificationListener, ExtractionListener, StegoProcessorListener {
+public class decode extends ActionBarActivity implements PluginNotificationListener, ExtractionListener, StegoProcessorListener {
     public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
     final private int SELECT_PHOTO = 1;
     public String path_to_decode_image;

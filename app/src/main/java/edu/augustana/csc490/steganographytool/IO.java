@@ -20,7 +20,8 @@ import java.io.InputStream;
 import java.net.URLDecoder;
 
 /**
- * Created by jonathonm on 4/24/2015.
+ * Set of useful methods borrowed from the pixelknot project
+ * Check them out on guthub @ https://github.com/guardianproject/PixelKnot/
  */
 public class IO {
     public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
@@ -43,9 +44,7 @@ public class IO {
                 fos.write(file_data);
                 fos.flush();
                 fos.close();
-                File dump = new File(DUMP);
-                //String path = downsampleImage(tmp.getAbsolutePath(),dump);
-               // tmp.delete();
+
                 return tmp.getAbsolutePath();
             } catch(FileNotFoundException e) {
                 //Log.e('', e.toString());

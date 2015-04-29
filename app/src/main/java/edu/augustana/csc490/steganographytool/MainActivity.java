@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -27,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
     View.OnClickListener encodeButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent encodeIntent = new Intent(MainActivity.this, EncodeActivity.class);
+            Intent encodeIntent = new Intent(MainActivity.this, encode.class);
             startActivity(encodeIntent);
         }
     };
@@ -36,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     View.OnClickListener decodeButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent decodeIntent = new Intent(MainActivity.this, DecodeActivity.class);
+            Intent decodeIntent = new Intent(MainActivity.this, decode.class);
             startActivity(decodeIntent);
         }
     };

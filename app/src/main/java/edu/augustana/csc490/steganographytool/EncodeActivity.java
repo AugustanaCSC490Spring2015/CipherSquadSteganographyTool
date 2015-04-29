@@ -32,7 +32,7 @@ import java.io.File;
 
 
 
-public class EncodeActivity extends ActionBarActivity implements Embed.EmbedListener, PluginNotificationListener {
+public class encode extends ActionBarActivity implements Embed.EmbedListener, PluginNotificationListener {
     public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
     private final int SELECT_PHOTO = 1;
     private Activity a;
@@ -55,9 +55,6 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         Button encodeButton = (Button) findViewById(R.id.encodeButton);
         encodeButton.setOnClickListener(encodeButtonListener);
 
-        Button shareButton = (Button) findViewById(R.id.shareButton);
-        shareButton.setOnClickListener(shareButtonListener);
-
         messageTextView = (EditText) findViewById(R.id.messageEditText);
         cr = getContentResolver();
         dump = new File(DUMP);
@@ -67,16 +64,6 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         stego_processor = new StegoProcessor(a);
 
     }
-
-    View.OnClickListener shareButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent shareIntent = new Intent();
-            shareIntent.setType("image/*");
-            //shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///"+imagePath));
-            startActivity(Intent.createChooser(shareIntent, "Share Image"));
-        }
-    };
 
 
     View.OnClickListener encodeButtonListener = new View.OnClickListener(){
