@@ -28,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
     View.OnClickListener encodeButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent encodeIntent = new Intent(MainActivity.this, encode.class);
+            Intent encodeIntent = new Intent(MainActivity.this, EncodeActivity.class);
             startActivity(encodeIntent);
         }
     };
@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     View.OnClickListener decodeButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent decodeIntent = new Intent(MainActivity.this, decode.class);
+            Intent decodeIntent = new Intent(MainActivity.this, DecodeActivity.class);
             startActivity(decodeIntent);
         }
     };

@@ -2,8 +2,10 @@ package edu.augustana.csc490.steganographytool;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -32,7 +34,7 @@ import java.io.File;
 
 
 
-public class encode extends ActionBarActivity implements Embed.EmbedListener, PluginNotificationListener {
+public class EncodeActivity extends ActionBarActivity implements Embed.EmbedListener, PluginNotificationListener, MediaScannerConnection.MediaScannerConnectionClient, MediaScannerConnection.OnScanCompletedListener{
     public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
     private final int SELECT_PHOTO = 1;
     private Activity a;
@@ -43,6 +45,10 @@ public class encode extends ActionBarActivity implements Embed.EmbedListener, Pl
     public byte[] seed = new String("This is hopefully Temporary").getBytes();
     public StegoProcessor stego_processor;
     public File dump;
+    public ProgressDialog ringProgressDialog;
+    private String imageDeleted;
+    public MediaScannerConnection conn;
+    public File finalFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +81,14 @@ public class encode extends ActionBarActivity implements Embed.EmbedListener, Pl
             }else{
                // encodeThread = new EncodeThread();
                 //encodeThread.start();
+                ringProgressDialog = ProgressDialog.show(a, "Please wait ...", "Working some magic ;)", true);
                 File dump = new File(DUMP);
-                Embed embed = new Embed(a, dump.getName(), IO.downsampleImage(path_to_cover_image, dump), secret_message, seed) {
+                imageDeleted = path_to_cover_image;
+                path_to_cover_image=IO.downsampleImage(path_to_cover_image, dump);
+                File deletedImage = new File(imageDeleted);
+                deletedImage.delete();
+                imageDeleted=path_to_cover_image;
+                Embed embed = new Embed(a, dump.getName(),path_to_cover_image , secret_message, seed) {
                     @Override
                     public void run() {
 
@@ -139,11 +151,21 @@ public class encode extends ActionBarActivity implements Embed.EmbedListener, Pl
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEmbedded(File outFile){
+    public void onEmbedded(final File outFile){
+        ringProgressDialog.dismiss();
+        File deletedImage = new File(imageDeleted);
+        deletedImage.delete();
+        finalFile =outFile;
+        MediaScannerConnection.scanFile(a,new String[]{outFile.getAbsolutePath()},null,EncodeActivity.this);
+
+
         Log.v("Stego", "onEmbedded called successfully");
     }
 
-    public void onFailure(){}
+    public void onFailure(){
+        ringProgressDialog.dismiss();
+        //maybe toss in an error message here
+    }
 
     public void onUpdate(String with_message){
         String temp;
@@ -153,6 +175,14 @@ public class encode extends ActionBarActivity implements Embed.EmbedListener, Pl
             temp = with_message;
         }
         Log.v("update", temp);
+    }
+
+    public void onMediaScannerConnected(){
+        Log.v("onMediaScannerConnected", "the execution made it here...");
+
+    }
+    public void onScanCompleted(String path, Uri uri){
+        Log.v("Encode activity", path);
     }
 
 }

@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".encode"
+
+            android:name=".EncodeActivity"
             android:label="@string/title_activity_encode" >
             <intent-filter>
                 <action android:name="android.intent.action.encode" />
@@ -40,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".decode"
+            android:name=".DecodeActivity"
             android:label="@string/title_activity_decode" >
             <intent-filter>
                 <action android:name="android.intent.action.decode" />

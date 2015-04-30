@@ -1,6 +1,7 @@
 package edu.augustana.csc490.steganographytool;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,7 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 
-public class decode extends ActionBarActivity implements PluginNotificationListener, ExtractionListener, StegoProcessorListener {
+public class DecodeActivity extends ActionBarActivity implements PluginNotificationListener, ExtractionListener, StegoProcessorListener {
     public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
     final private int SELECT_PHOTO = 1;
     public String path_to_decode_image;
@@ -37,7 +38,7 @@ public class decode extends ActionBarActivity implements PluginNotificationListe
     public StegoProcessor stego_processor;
     TextView messageTextView;
     String message;
-
+    ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,8 @@ public class decode extends ActionBarActivity implements PluginNotificationListe
     View.OnClickListener decodeButtonListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
+            ringProgressDialog = ProgressDialog.show(a, "Please wait ...", "Working some magic ;)", true);
+
             Extract extract = new Extract(a, path_to_decode_image, seed);
             stego_processor.addThread((StegoProcessThread) extract, true);
         }
@@ -116,9 +119,14 @@ public class decode extends ActionBarActivity implements PluginNotificationListe
     public void onExtractionResult(ByteArrayOutputStream baos){
         message = new String(baos.toByteArray());
         stego_processor.destroy();
+        ringProgressDialog.dismiss();
+
 
     }
-    public void onFailure(){}
+    public void onFailure(){
+        ringProgressDialog.dismiss();
+        //maybe toss in a failure message
+    }
 
     public void onUpdate(String with_message){
         String temp;
