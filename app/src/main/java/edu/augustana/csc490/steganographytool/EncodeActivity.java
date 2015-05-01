@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -49,13 +50,14 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     private String imageDeleted;
     public MediaScannerConnection conn;
     public File finalFile;
+    public ImageButton imageSelectorButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encode);
 
-        ImageButton imageSelectorButton = (ImageButton) findViewById(R.id.selectImageButton);
+        imageSelectorButton = (ImageButton) findViewById(R.id.selectImageButton);
         imageSelectorButton.setOnClickListener(imageSelectorListener);
 
         Button encodeButton = (Button) findViewById(R.id.encodeButton);
@@ -104,12 +106,22 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
     //Listener to select image to encode the message into
     View.OnClickListener imageSelectorListener = new View.OnClickListener(){
+        //File f = new File(".jpeg");
         @Override
         public void onClick(View view){
             Intent imageSelectorIntent = new Intent(Intent.ACTION_PICK);
             imageSelectorIntent.setType("image/*");
             startActivityForResult(imageSelectorIntent, SELECT_PHOTO);
+            //startActivityForResult(Intent.createChooser(imageSelectorIntent,
+            //getResources().getString(R.string.selectImage)), SELECT_PHOTO);
         }
+        //@Override
+       /* public void OnActivityResult(){
+            if(f.exists()) {
+                Drawable d = Drawable.createFromPath(f);
+                imageSelectorButton.setImageResource(d);
+            }
+        }*/
 
     };
     @Override

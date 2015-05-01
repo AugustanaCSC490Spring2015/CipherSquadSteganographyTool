@@ -8,5 +8,6 @@
     <string name="selectImageText">Select Image:</string>
     <string name="typeMessageText">Type Message:</string>
     <string name="hiddenMessageText">Hidden Message:</string>
-
+    <string name="shareText">Share</string>
+    <string name ="selectImage"></string>
 </resources>

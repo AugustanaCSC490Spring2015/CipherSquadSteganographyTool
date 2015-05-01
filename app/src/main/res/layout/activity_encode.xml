@@ -43,26 +43,26 @@
         android:id="@+id/messageEditText"
         android:layout_alignTop="@+id/messageTextView"
         android:layout_toRightOf="@+id/selectTextView"
-        android:layout_toEndOf="@+id/selectTextView" />
+        android:layout_toEndOf="@+id/selectTextView"
+        android:scrollbars="vertical"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/encodeText"
         android:id="@+id/encodeButton"
-        android:layout_marginBottom="44dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="37dp"
+        android:layout_above="@+id/shareButton"
         android:layout_toRightOf="@+id/messageTextView"
-        android:layout_toEndOf="@+id/messageTextView"
-        android:layout_marginTop="82dp" />
+        android:layout_toEndOf="@+id/messageTextView" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share"
+        android:text="@string/shareText"
         android:id="@+id/shareButton"
-        android:layout_marginTop="26dp"
-        android:layout_below="@+id/encodeButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/encodeButton"
-        android:layout_alignStart="@+id/encodeButton" />
+        android:layout_alignStart="@+id/encodeButton"
+        android:layout_marginBottom="26dp" />
 </RelativeLayout>

@@ -50,10 +50,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text=""
         android:id="@+id/displayTextView"
         android:layout_alignTop="@+id/messageTextView"
         android:layout_toLeftOf="@+id/attachImageButton"
-        android:layout_toStartOf="@+id/attachImageButton" />
+        android:layout_toStartOf="@+id/attachImageButton"
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>
