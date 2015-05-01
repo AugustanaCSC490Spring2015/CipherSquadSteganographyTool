@@ -118,7 +118,13 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
 
     public void onExtractionResult(ByteArrayOutputStream baos){
         message = new String(baos.toByteArray());
-        stego_processor.destroy();
+        Log.v("The Message: ", message);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                messageTextView.setText(message);
+            }
+        });
         ringProgressDialog.dismiss();
 
 
@@ -138,13 +144,11 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         Log.v("update", temp);
     }
     public void onProcessorQueueAborted(){
-        Log.v("The Message: ", message);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                messageTextView.setText(message);
-            }
-        });
+
+    }
+
+    public void cleanUp(){
+
     }
 
 }

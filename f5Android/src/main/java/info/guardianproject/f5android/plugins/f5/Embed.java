@@ -69,7 +69,7 @@ public class Embed extends StegoProcessThread {
 
 		if(outFileName == null) {
 			String extension = this.file.getName().substring(this.file.getName().lastIndexOf(".") - 1);
-			this.outFile = new File(root_dir, this.file.getName().replace(extension, "_embed.jpg"));
+			this.outFile = new File(root_dir, this.file.getName().replace(extension, ".jpg"));
 			this.outFileName = this.outFile.getAbsolutePath();
 		} else {
 			this.outFile = new File(outFileName);

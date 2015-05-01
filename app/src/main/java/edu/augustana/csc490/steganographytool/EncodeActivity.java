@@ -76,12 +76,13 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         @Override
         public void onClick(View view){
             secret_message=messageTextView.getText().toString();
-            if(secret_message==null){
+            if(secret_message==null||path_to_cover_image==null){
                 //create a popup if null
             }else{
                // encodeThread = new EncodeThread();
                 //encodeThread.start();
                 ringProgressDialog = ProgressDialog.show(a, "Please wait ...", "Working some magic ;)", true);
+                messageTextView.setText("");
                 File dump = new File(DUMP);
                 imageDeleted = path_to_cover_image;
                 path_to_cover_image=IO.downsampleImage(path_to_cover_image, dump);
@@ -178,11 +179,11 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     }
 
     public void onMediaScannerConnected(){
-        Log.v("onMediaScannerConnected", "the execution made it here...");
+
 
     }
     public void onScanCompleted(String path, Uri uri){
-        Log.v("Encode activity", path);
+
     }
 
 }
