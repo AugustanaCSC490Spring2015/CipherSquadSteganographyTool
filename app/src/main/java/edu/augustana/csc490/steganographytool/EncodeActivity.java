@@ -35,7 +35,7 @@ import java.io.File;
 
 
 
-public class EncodeActivity extends ActionBarActivity implements Embed.EmbedListener, PluginNotificationListener, MediaScannerConnection.MediaScannerConnectionClient, MediaScannerConnection.OnScanCompletedListener{
+public class EncodeActivity extends ActionBarActivity implements Embed.EmbedListener, PluginNotificationListener, MediaScannerConnection.MediaScannerConnectionClient, MediaScannerConnection.OnScanCompletedListener, StegoProcessorListener{
     public final static String DUMP = Environment.getExternalStorageDirectory().getAbsolutePath() + "/StegoTool";
     private final int SELECT_PHOTO = 1;
     private Activity a;
@@ -116,6 +116,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
             //getResources().getString(R.string.selectImage)), SELECT_PHOTO);
         }
         //@Override
+
        /* public void OnActivityResult(){
             if(f.exists()) {
                 Drawable d = Drawable.createFromPath(f);
@@ -132,11 +133,8 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
             if (resultCode == RESULT_OK) {
 
                 Uri cover_image_uri = data.getData();
-                Log.v("this is a program", "made it out of gallery");
 
                 path_to_cover_image = IO.pullPathFromUri(a, cover_image_uri, cr);
-                Log.v("this is a program", " "+path_to_cover_image);
-                //cover_image_file = new File(path_to_cover_image);
             }
         }
     }
@@ -165,14 +163,17 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     }
 
     public void onEmbedded(final File outFile){
+        String extension = outFile.getName().substring(outFile.getName().lastIndexOf("_"));
+        File tempFile = new File(new File(Environment.getExternalStorageDirectory().getAbsolutePath(),dump.getName()),outFile.getName().replace(extension,".jpg"));
+        outFile.renameTo(tempFile);
+
         ringProgressDialog.dismiss();
         File deletedImage = new File(imageDeleted);
         deletedImage.delete();
-        finalFile =outFile;
-        MediaScannerConnection.scanFile(a,new String[]{outFile.getAbsolutePath()},null,EncodeActivity.this);
+        finalFile =tempFile;
+        MediaScannerConnection.scanFile(a, new String[]{tempFile.getAbsolutePath()}, null, EncodeActivity.this);
 
 
-        Log.v("Stego", "onEmbedded called successfully");
     }
 
     public void onFailure(){
@@ -197,6 +198,15 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     public void onScanCompleted(String path, Uri uri){
 
     }
+
+    public void onDestroy(){
+        stego_processor.destroy();
+        super.onDestroy();
+    }
+    public void onProcessorQueueAborted(){
+
+    }
+
 
 }
 

@@ -86,10 +86,8 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
             if (resultCode == RESULT_OK) {
 
                 Uri cover_image_uri = data.getData();
-                Log.v("this is a program", "made it out of gallery");
 
                 path_to_decode_image = IO.pullPathFromUri(a, cover_image_uri, cr);
-                Log.v("this is a program", " "+path_to_decode_image);
                 //cover_image_file = new File(path_to_cover_image);
             }
         }
@@ -118,7 +116,6 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
 
     public void onExtractionResult(ByteArrayOutputStream baos){
         message = new String(baos.toByteArray());
-        Log.v("The Message: ", message);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -143,12 +140,16 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         }
         Log.v("update", temp);
     }
+    public void onDestroy(){
+        stego_processor.destroy();
+        super.onDestroy();
+    }
     public void onProcessorQueueAborted(){
 
     }
 
-    public void cleanUp(){
 
-    }
+
+
 
 }
