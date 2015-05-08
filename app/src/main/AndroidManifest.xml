@@ -37,7 +37,11 @@
                 <action android:name="android.intent.action.EDIT" />
                 <action android:name="android.intent.action.GET_CONTENT" />
 
-                <data android:mimeType="image/*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.jpeg" />
+                <data android:pathPattern=".**\\.gif"/>
+                <data android:pathPattern=".**\\.tiff"/>
+                <data android:host="*" />
             </intent-filter>
         </activity>
         <activity
@@ -47,6 +51,8 @@
                 <action android:name="android.intent.action.decode" />
 
                 <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.jpeg" />
             </intent-filter>
         </activity>
         <service android:name="info.guardianproject.f5android.stego.StegoProcessorService" />
