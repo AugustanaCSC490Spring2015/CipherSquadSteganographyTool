@@ -135,6 +135,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
                 Uri cover_image_uri = data.getData();
 
                 path_to_cover_image = IO.pullPathFromUri(a, cover_image_uri, cr);
+                Log.i("file path", path_to_cover_image);
             }
         }
     }
