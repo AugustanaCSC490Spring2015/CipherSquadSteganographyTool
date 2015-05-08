@@ -2,8 +2,10 @@ package edu.augustana.csc490.steganographytool;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
@@ -27,6 +29,7 @@ import info.guardianproject.f5android.stego.*;
 import info.guardianproject.f5android.plugins.PluginNotificationListener;
 
 
+
 import java.io.File;
 //import info.guardianproject.f5android.plugins.f5.Embed;
 //import info.guardianproject.f5android.plugins.f5.Embed.EmbedListener;
@@ -45,6 +48,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     public EditText messageTextView;
     public byte[] seed = new String("This is hopefully Temporary").getBytes();
     public StegoProcessor stego_processor;
+    public AlertDialog alertDialog;
     public File dump;
     public ProgressDialog ringProgressDialog;
     private String imageDeleted;
@@ -63,6 +67,8 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         Button encodeButton = (Button) findViewById(R.id.encodeButton);
         encodeButton.setOnClickListener(encodeButtonListener);
 
+        alertDialog = new AlertDialog.Builder(this).create();
+
         messageTextView = (EditText) findViewById(R.id.messageEditText);
         cr = getContentResolver();
         dump = new File(DUMP);
@@ -70,7 +76,6 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
             dump.mkdir();
         a = this;
         stego_processor = new StegoProcessor(a);
-
     }
 
 
@@ -99,6 +104,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
                     }
                 };
                 stego_processor.addThread((StegoProcessThread) embed, true);
+
 
             }
         }
@@ -163,19 +169,37 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEmbedded(final File outFile){
+    /**
+     * Saves the newly encoded image to the user's device and displays a popup to inform the user upon completion.
+     * @param outFile
+     */
+    public void onEmbedded(final File outFile) {
         String extension = outFile.getName().substring(outFile.getName().lastIndexOf("_"));
-        File tempFile = new File(new File(Environment.getExternalStorageDirectory().getAbsolutePath(),dump.getName()),outFile.getName().replace(extension,".jpg"));
+        File tempFile = new File(new File(Environment.getExternalStorageDirectory().getAbsolutePath(), dump.getName()), outFile.getName().replace(extension, ".jpg"));
         outFile.renameTo(tempFile);
 
         ringProgressDialog.dismiss();
+
         File deletedImage = new File(imageDeleted);
         deletedImage.delete();
-        finalFile =tempFile;
+        finalFile = tempFile;
         MediaScannerConnection.scanFile(a, new String[]{tempFile.getAbsolutePath()}, null, EncodeActivity.this);
 
-
+        //code adapted from http://stackoverflow.com/questions/13082244/show-alertdialog-after-progressdialog-closes
+        runOnUiThread(new Runnable() {
+            public void run() {
+                alertDialog.setTitle("Finished!");
+                alertDialog.setMessage("Your encoded image has been saved.");
+                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+        });
     }
+
 
     public void onFailure(){
         ringProgressDialog.dismiss();
