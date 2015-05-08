@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +53,7 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         decodeButton.setOnClickListener(decodeButtonListener);
 
         messageTextView = (TextView) findViewById(R.id.displayTextView);
+        messageTextView.setMovementMethod(new ScrollingMovementMethod());
         a = this;
         cr = getContentResolver();
         dump = new File(DUMP);
