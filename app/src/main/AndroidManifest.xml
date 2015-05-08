@@ -22,7 +22,8 @@
         <activity
 
             android:name=".EncodeActivity"
-            android:label="@string/title_activity_encode" >
+            android:label="@string/title_activity_encode" 
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.encode" />
 
