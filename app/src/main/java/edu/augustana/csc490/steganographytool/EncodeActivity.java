@@ -2,26 +2,26 @@ package edu.augustana.csc490.steganographytool;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
+import android.widget.PopupWindow;
+
 import info.guardianproject.f5android.plugins.f5.Embed;
 import info.guardianproject.f5android.stego.*;
 import info.guardianproject.f5android.plugins.PluginNotificationListener;
@@ -51,6 +51,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     public MediaScannerConnection conn;
     public File finalFile;
     public ImageButton imageSelectorButton;
+    public PopupWindow error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +61,36 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         imageSelectorButton = (ImageButton) findViewById(R.id.selectImageButton);
         imageSelectorButton.setOnClickListener(imageSelectorListener);
 
-        Button encodeButton = (Button) findViewById(R.id.encodeButton);
+        final Button encodeButton = (Button) findViewById(R.id.encodeButton);
         encodeButton.setOnClickListener(encodeButtonListener);
 
         messageTextView = (EditText) findViewById(R.id.messageEditText);
+
+        /*
+        messageTextView.setOnKeyListener(new View.OnKeyListener()
+        {
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                Log.i("Ayo", keyCode + "");
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    Log.i("", keyCode + "");
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+
+                            encodeButton.performClick();
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+        */
+
         cr = getContentResolver();
         dump = new File(DUMP);
         if(!dump.exists())
@@ -78,8 +105,8 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         @Override
         public void onClick(View view){
             secret_message=messageTextView.getText().toString();
-            if(secret_message==null||path_to_cover_image==null){
-                //create a popup if null
+            if(secret_message==null || secret_message.equals("") || path_to_cover_image==null){
+                showErrorMessage();
             }else{
                // encodeThread = new EncodeThread();
                 //encodeThread.start();
@@ -207,6 +234,31 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
     }
 
+    // method is the modified version of showSimplePopUp() from
+    // http://www.androiddom.com/2011/06/displaying-android-pop-up-dialog.html
+    private void showErrorMessage() {
+
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+        helpBuilder.setTitle("Error");
+        if (secret_message.equals("") && path_to_cover_image == null) {
+            helpBuilder.setMessage("You have not selected an image or typed in a secret message, please go back and make the necessary changes.");
+        } else if (path_to_cover_image == null) {
+            helpBuilder.setMessage("You have not selected an image, please go back and select an image you want to encode.");
+        } else if (secret_message.equals("")) {
+            helpBuilder.setMessage("You have not typed in a secret message, please go back and create a secret message.");
+        }
+        helpBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+
+        // Remember, create doesn't show the dialog
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
+    }
 
 }
 
