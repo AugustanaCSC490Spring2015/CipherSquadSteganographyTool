@@ -53,7 +53,7 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         decodeButton.setOnClickListener(decodeButtonListener);
 
         messageTextView = (TextView) findViewById(R.id.displayTextView);
-        messageTextView.setMovementMethod(new ScrollingMovementMethod());
+        messageTextView.setMovementMethod(new ScrollingMovementMethod()); //code from http://stackoverflow.com/questions/1748977/making-textview-scrollable-in-android
         a = this;
         cr = getContentResolver();
         dump = new File(DUMP);
