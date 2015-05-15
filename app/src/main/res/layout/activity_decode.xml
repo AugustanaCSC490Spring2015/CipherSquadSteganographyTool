@@ -35,7 +35,9 @@
         android:layout_below="@+id/decodeButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="110dp" />
+        android:layout_marginTop="110dp"
+        android:maxLines = "10"
+        android:scrollbars = "vertical"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -52,9 +54,7 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/displayTextView"
-        android:layout_alignTop="@+id/messageTextView"
-        android:layout_toLeftOf="@+id/attachImageButton"
-        android:layout_toStartOf="@+id/attachImageButton"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:layout_below="@+id/messageTextView" />
 
 </RelativeLayout>

@@ -15,8 +15,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="false"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/monalisa_stego_med" />
 
     <Button
         android:layout_width="wrap_content"

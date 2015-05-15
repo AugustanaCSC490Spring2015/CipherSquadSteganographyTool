@@ -2,12 +2,14 @@ package edu.augustana.csc490.steganographytool;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ import info.guardianproject.f5android.stego.StegoProcessorListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.URI;
 
 
 public class DecodeActivity extends ActionBarActivity implements PluginNotificationListener, ExtractionListener, StegoProcessorListener {
@@ -44,6 +47,16 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decode);
+        cr = getContentResolver();
+        Intent i = getIntent();
+        if(i.getClipData() != null){
+            ClipData.Item item = i.getClipData().getItemAt(0);
+            path_to_decode_image = IO.pullPathFromUri(a, item.getUri(), cr);
+
+        }
+
+
+        //Log.v("Uri", uri.toString());
 
         ImageButton imageSelectorButton = (ImageButton) findViewById(R.id.attachImageButton);
         imageSelectorButton.setOnClickListener(imageSelectorListener);
@@ -52,8 +65,9 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         decodeButton.setOnClickListener(decodeButtonListener);
 
         messageTextView = (TextView) findViewById(R.id.displayTextView);
+        messageTextView.setMovementMethod(new ScrollingMovementMethod()); //code from http://stackoverflow.com/questions/1748977/making-textview-scrollable-in-android
         a = this;
-        cr = getContentResolver();
+
         dump = new File(DUMP);
         if(!dump.exists())
             dump.mkdir();
@@ -122,6 +136,8 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
                 messageTextView.setText(message);
             }
         });
+        File deletedImage = new File(path_to_decode_image);
+        deletedImage.delete();
         ringProgressDialog.dismiss();
 
 
