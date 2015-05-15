@@ -16,12 +16,15 @@ import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
+
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -60,6 +63,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     public File finalFile;
     public Button imageSelectorButton;
     public ImageView selectedImageView;
+    public PopupWindow error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         imageSelectorButton = (Button) findViewById(R.id.selectImageButton);
         imageSelectorButton.setOnClickListener(imageSelectorListener);
 
-        Button encodeButton = (Button) findViewById(R.id.encodeButton);
+        final Button encodeButton = (Button) findViewById(R.id.encodeButton);
         encodeButton.setOnClickListener(encodeButtonListener);
 
         Button shareButton = (Button) findViewById(R.id.shareButton);
@@ -80,6 +84,22 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         alertDialog = new AlertDialog.Builder(this).create();
 
         messageTextView = (EditText) findViewById(R.id.messageEditText);
+
+        // To add once works
+        messageTextView.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Log.i("Clicked", "" + keyCode);
+                    encodeButton.performClick();
+                }
+                return false; // very important
+            }
+        });
+
+
         cr = getContentResolver();
         dump = new File(DUMP);
         if(!dump.exists())
@@ -93,8 +113,8 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         @Override
         public void onClick(View view){
             secret_message=messageTextView.getText().toString();
-            if(secret_message==null||path_to_cover_image==null){
-                //create a popup if null
+            if(secret_message==null || secret_message.equals("") || path_to_cover_image==null){
+                showErrorMessage();
             }else{
                // encodeThread = new EncodeThread();
                 //encodeThread.start();
@@ -169,16 +189,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
                 Bitmap selectedImagePreview = BitmapFactory.decodeFile(path_to_cover_image);
                 selectedImageView.setImageBitmap(selectedImagePreview);
             }
-
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_encode, menu);
-        return true;
     }
 
     @Override
@@ -259,6 +270,31 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
     }
 
+    // method is the modified version of showSimplePopUp() from
+    // http://www.androiddom.com/2011/06/displaying-android-pop-up-dialog.html
+    private void showErrorMessage() {
+
+        AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+        helpBuilder.setTitle("Error");
+        if (secret_message.equals("") && path_to_cover_image == null) {
+            helpBuilder.setMessage("You have not selected an image or typed in a secret message, please go back and make the necessary changes.");
+        } else if (path_to_cover_image == null) {
+            helpBuilder.setMessage("You have not selected an image, please go back and select an image you want to encode.");
+        } else if (secret_message.equals("")) {
+            helpBuilder.setMessage("You have not typed in a secret message, please go back and create a secret message.");
+        }
+        helpBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+
+        // Remember, create doesn't show the dialog
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
+    }
 
 }
 
