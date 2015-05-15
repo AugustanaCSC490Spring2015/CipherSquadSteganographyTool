@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import info.guardianproject.f5android.plugins.f5.Extract;
@@ -42,6 +45,7 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
     TextView messageTextView;
     String message;
     ProgressDialog ringProgressDialog;
+    public ImageView selectedImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +62,13 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
 
         //Log.v("Uri", uri.toString());
 
-        ImageButton imageSelectorButton = (ImageButton) findViewById(R.id.attachImageButton);
+        Button imageSelectorButton = (Button) findViewById(R.id.attachImageButton);
         imageSelectorButton.setOnClickListener(imageSelectorListener);
 
         Button decodeButton = (Button) findViewById(R.id.decodeButton);
         decodeButton.setOnClickListener(decodeButtonListener);
+
+        selectedImageView = (ImageView) findViewById(R.id.selectedDecodeImagePreview);
 
         messageTextView = (TextView) findViewById(R.id.displayTextView);
         messageTextView.setMovementMethod(new ScrollingMovementMethod()); //code from http://stackoverflow.com/questions/1748977/making-textview-scrollable-in-android
@@ -102,6 +108,8 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
                 Uri cover_image_uri = data.getData();
 
                 path_to_decode_image = IO.pullPathFromUri(a, cover_image_uri, cr);
+                Bitmap selectedImagePreview = BitmapFactory.decodeFile(path_to_decode_image);
+                selectedImageView.setImageBitmap(selectedImagePreview);
                 //cover_image_file = new File(path_to_cover_image);
             }
         }

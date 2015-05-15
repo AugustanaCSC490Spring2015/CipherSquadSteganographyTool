@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -24,6 +26,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.widget.ImageView;
+
 import info.guardianproject.f5android.plugins.f5.Embed;
 import info.guardianproject.f5android.stego.*;
 import info.guardianproject.f5android.plugins.PluginNotificationListener;
@@ -54,14 +58,15 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     private String imageDeleted;
     public MediaScannerConnection conn;
     public File finalFile;
-    public ImageButton imageSelectorButton;
+    public Button imageSelectorButton;
+    public ImageView selectedImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encode);
 
-        imageSelectorButton = (ImageButton) findViewById(R.id.selectImageButton);
+        imageSelectorButton = (Button) findViewById(R.id.selectImageButton);
         imageSelectorButton.setOnClickListener(imageSelectorListener);
 
         Button encodeButton = (Button) findViewById(R.id.encodeButton);
@@ -69,6 +74,8 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
         Button shareButton = (Button) findViewById(R.id.shareButton);
         shareButton.setOnClickListener(shareButtonListener);
+
+        selectedImageView = (ImageView) findViewById(R.id.selectedEncodeImagePreview);
 
         alertDialog = new AlertDialog.Builder(this).create();
 
@@ -159,7 +166,10 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
                 path_to_cover_image = IO.pullPathFromUri(a, cover_image_uri, cr);
                 Log.i("file path", path_to_cover_image);
+                Bitmap selectedImagePreview = BitmapFactory.decodeFile(path_to_cover_image);
+                selectedImageView.setImageBitmap(selectedImagePreview);
             }
+
         }
     }
 

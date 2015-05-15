@@ -10,44 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/selectImageText"
-        android:id="@+id/selectTextView"
+        android:text="@string/hiddenMessageText"
+        android:id="@+id/messageTextView"
+        android:maxLines = "10"
+        android:scrollbars = "vertical"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/attachImageButton"
-        android:src="@android:drawable/ic_menu_add"
-        android:layout_alignTop="@+id/selectTextView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/hiddenMessageText"
-        android:id="@+id/messageTextView"
-        android:layout_below="@+id/decodeButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="110dp"
-        android:maxLines = "10"
-        android:scrollbars = "vertical"/>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/decodeText"
-        android:id="@+id/decodeButton"
-        android:layout_below="@+id/attachImageButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp" />
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,6 +26,65 @@
         android:text=""
         android:id="@+id/displayTextView"
         android:scrollbars="vertical"
-        android:layout_below="@+id/messageTextView" />
+        android:layout_below="@+id/messageTextView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/gridLayout2" />
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/gridLayout2"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Select an Image"
+            android:id="@+id/attachImageButton"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/decodeButton"
+            android:layout_toStartOf="@+id/decodeButton"
+            android:layout_row="2"
+            android:layout_column="1" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/decodeText"
+            android:id="@+id/decodeButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="63dp"
+            android:layout_below="@+id/displayTextView"
+            android:layout_row="1"
+            android:layout_column="1" />
+    </GridLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayout"
+        android:layout_below="@+id/displayTextView"
+        android:layout_toRightOf="@+id/gridLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/selectedDecodeImagePreview"
+            android:layout_gravity="center"
+            android:src="@drawable/no_image_selected"
+            android:layout_below="@+id/frameLayout"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </FrameLayout>
 
 </RelativeLayout>

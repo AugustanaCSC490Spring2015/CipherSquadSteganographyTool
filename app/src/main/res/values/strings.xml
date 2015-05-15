@@ -5,9 +5,9 @@
     <string name = "decodeText">Decode</string>
     <string name="title_activity_encode">encode</string>
     <string name="title_activity_decode">decode</string>
-    <string name="selectImageText">Select Image:</string>
+    <string name="selectImageText">Select Image</string>
     <string name="typeMessageText">Type Message:</string>
-    <string name="hiddenMessageText">Hidden Message:</string>
+    <string name="hiddenMessageText">Hidden Message</string>
     <string name="shareText">Share</string>
     <string name ="selectImage"></string>
 </resources>

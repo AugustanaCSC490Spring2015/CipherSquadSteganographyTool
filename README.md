@@ -5,7 +5,9 @@ Welcome to the Steganography Tool presented by CipherSquad
   
 The main contributors to this project have been:
 
-  - Ethan Halsall   -   
+  - Ethan Halsall   -   Designed and implemented icon
+                    -   Reorganized UI
+                    -   Added functionality such that the app only opens image types that are compatible with the steganography library
   - Matthew Leja    -   
   - Jamie Christian -   Solved user interface issues presented when soft keyboard opens
                     -   Added a dialog to inform user when their image has been saved
