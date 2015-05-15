@@ -67,6 +67,9 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
         Button encodeButton = (Button) findViewById(R.id.encodeButton);
         encodeButton.setOnClickListener(encodeButtonListener);
 
+        Button shareButton = (Button) findViewById(R.id.shareButton);
+        shareButton.setOnClickListener(shareButtonListener);
+
         alertDialog = new AlertDialog.Builder(this).create();
 
         messageTextView = (EditText) findViewById(R.id.messageEditText);
@@ -130,6 +133,20 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
             }
         }*/
 
+    };
+    /*Method to handle the share button being clicked
+    * The image Uri is loaded into an intent and shipped off to another app
+    * */
+    View.OnClickListener shareButtonListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View view){
+            if(finalFile != null){
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(finalFile.toURI().toString()));
+                startActivity(Intent.createChooser(intent, "Share Image"));
+            }
+        }
     };
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

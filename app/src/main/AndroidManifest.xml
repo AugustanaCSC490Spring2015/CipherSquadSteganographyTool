@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="edu.augustana.csc490.steganographytool">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
     <application
         tools:replace="android:icon"
         android:allowBackup="true"
@@ -30,7 +31,7 @@
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
+               <!-- <category android:name="android.intent.category.DEFAULT" />-->
 
                 <action android:name="android.intent.action.PICK" />
                 <action android:name="android.intent.action.VIEW" />
@@ -38,7 +39,7 @@
                 <action android:name="android.intent.action.EDIT" />
                 <action android:name="android.intent.action.GET_CONTENT" />
 
-                <data android:mimeType="*/*" />
+                <data android:mimeType="image/*" />
                 <data android:pathPattern=".*\\.jpeg" />
                 <data android:pathPattern=".**\\.gif"/>
                 <data android:pathPattern=".**\\.tiff"/>
@@ -50,10 +51,23 @@
             android:label="@string/title_activity_decode" >
             <intent-filter>
                 <action android:name="android.intent.action.decode" />
-
                 <category android:name="android.intent.category.OPENABLE" />
-                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.PICK" />
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.EDIT" />
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+
+                <data android:mimeType="image/*" />
                 <data android:pathPattern=".*\\.jpeg" />
+                <data android:pathPattern=".**\\.gif"/>
+                <data android:pathPattern=".**\\.tiff"/>
+                <data android:host="*" />
             </intent-filter>
         </activity>
         <service android:name="info.guardianproject.f5android.stego.StegoProcessorService" />
