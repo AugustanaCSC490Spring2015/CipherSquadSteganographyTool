@@ -73,30 +73,20 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
         messageTextView = (EditText) findViewById(R.id.messageEditText);
 
-        /*
-        messageTextView.setOnKeyListener(new View.OnKeyListener()
-        {
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
-                Log.i("Ayo", keyCode + "");
-                if (event.getAction() == KeyEvent.ACTION_DOWN)
-                {
-                    Log.i("", keyCode + "");
-                    switch (keyCode)
-                    {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
-                        case KeyEvent.KEYCODE_ENTER:
+        // To add once works
+        messageTextView.setOnKeyListener(new View.OnKeyListener() {
 
-                            encodeButton.performClick();
-                            return true;
-                        default:
-                            break;
-                    }
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Log.i("Clicked", "" + keyCode);
+                    encodeButton.performClick();
                 }
-                return false;
+                return false; // very important
             }
         });
-        */
+
 
         cr = getContentResolver();
         dump = new File(DUMP);
@@ -186,14 +176,6 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
                 Log.i("file path", path_to_cover_image);
             }
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_encode, menu);
-        return true;
     }
 
     @Override
