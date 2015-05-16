@@ -4,6 +4,8 @@ package edu.augustana.csc490.steganographytool;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -64,6 +66,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     public Button imageSelectorButton;
     public ImageView selectedImageView;
     public PopupWindow error;
+    private Uri sharedUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,10 +170,14 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
     View.OnClickListener shareButtonListener = new View.OnClickListener(){
         @Override
         public void onClick(View view){
-            if(finalFile != null){
+            if(finalFile != null) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(finalFile.toURI().toString()));
+                intent.putExtra(Intent.EXTRA_STREAM, sharedUri);
+                ClipDescription desc = new ClipDescription("Encoded Pic", new String[]{ClipDescription.MIMETYPE_TEXT_URILIST});
+                ClipData.Item item = new ClipData.Item(sharedUri);
+                ClipData uriClipData = new ClipData(desc, item);
+                intent.setClipData(uriClipData);
                 startActivity(Intent.createChooser(intent, "Share Image"));
             }
         }
@@ -259,7 +266,7 @@ public class EncodeActivity extends ActionBarActivity implements Embed.EmbedList
 
     }
     public void onScanCompleted(String path, Uri uri){
-
+        sharedUri = uri;
     }
 
     public void onDestroy(){

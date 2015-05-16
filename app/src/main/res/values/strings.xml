@@ -3,8 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name = "encodeText">Encode</string>
     <string name = "decodeText">Decode</string>
-    <string name="title_activity_encode">encode</string>
-    <string name="title_activity_decode">decode</string>
+    <string name="title_activity_encode">Encode</string>
+    <string name="title_activity_decode">Decode</string>
     <string name="selectImageText">Select Image</string>
     <string name="typeMessageText">Type Message:</string>
     <string name="hiddenMessageText">Hidden Message</string>

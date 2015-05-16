@@ -53,10 +53,13 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         setContentView(R.layout.activity_decode);
         cr = getContentResolver();
         Intent i = getIntent();
+        selectedImageView = (ImageView) findViewById(R.id.selectedDecodeImagePreview);
         if(i.getClipData() != null){
             ClipData.Item item = i.getClipData().getItemAt(0);
             path_to_decode_image = IO.pullPathFromUri(a, item.getUri(), cr);
-
+            Log.v("Uri", item.getUri().toString());
+            Bitmap selectedImagePreview = BitmapFactory.decodeFile(path_to_decode_image);
+            selectedImageView.setImageBitmap(selectedImagePreview);
         }
 
 
@@ -68,7 +71,7 @@ public class DecodeActivity extends ActionBarActivity implements PluginNotificat
         Button decodeButton = (Button) findViewById(R.id.decodeButton);
         decodeButton.setOnClickListener(decodeButtonListener);
 
-        selectedImageView = (ImageView) findViewById(R.id.selectedDecodeImagePreview);
+
 
         messageTextView = (TextView) findViewById(R.id.displayTextView);
         messageTextView.setMovementMethod(new ScrollingMovementMethod()); //code from http://stackoverflow.com/questions/1748977/making-textview-scrollable-in-android
