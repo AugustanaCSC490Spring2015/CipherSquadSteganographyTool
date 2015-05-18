@@ -46,7 +46,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Select an Image"
+            android:text="@string/selectImageText"
             android:id="@+id/attachImageButton"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/decodeButton"

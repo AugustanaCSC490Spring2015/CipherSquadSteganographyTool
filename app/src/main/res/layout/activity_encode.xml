@@ -52,7 +52,7 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Select an Image"
+            android:text="@string/selectImageText"
             android:id="@+id/selectImageButton"
             android:layout_above="@+id/encodeButton"
             android:layout_alignParentLeft="true"

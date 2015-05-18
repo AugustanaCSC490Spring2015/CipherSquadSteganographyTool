@@ -12,6 +12,8 @@ The main contributors to this project have been:
   - Jamie Christian -   Solved user interface issues presented when soft keyboard opens
                     -   Added a dialog to inform user when their image has been saved
                     -   Solve user interface issues presented when the hidden text revealed in the decode section is too long for the screen
-  - Danielle Bryant -   
+  - Danielle Bryant -   Created the encode, decode, and main activities
+                    -   Created listeners for the buttons, text view, and edit text
+                    -   Gave the buttons basic functionality (launching the create activity, open a selection of apps to choose an image)
   - Jonathon Meyer  -   
 
