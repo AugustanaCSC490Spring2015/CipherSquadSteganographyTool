@@ -9,8 +9,9 @@ The main contributors to this project have been:
                     -   Reorganized UI
                     -   Added functionality such that the app only opens image types that are compatible with the steganography library
                     -   Added image previewing on Encode and Decode
-  - Matthew Leja    -   
-  - Jamie Christian -   Solved user interface issues presented when soft keyboard opens
+  - Matthew Leja    -   Added alert box when user hits encode but did not set a message or did not set an image
+                    -   Added a listener to the encode textbox so that when a user hits enter, it hits the encode button.
+  - Jamie Christian -   Solved user interface issues presented when soft keyboard opens.
                     -   Added a dialog to inform user when their image has been saved
                     -   Solve user interface issues presented when the hidden text revealed in the decode section is too long for the screen
   - Danielle Bryant -   Created the encode, decode, and main activities
