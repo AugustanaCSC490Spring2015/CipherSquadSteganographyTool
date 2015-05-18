@@ -16,5 +16,10 @@ The main contributors to this project have been:
   - Danielle Bryant -   Created the encode, decode, and main activities
                     -   Created listeners for the buttons, text view, and edit text
                     -   Gave the buttons basic functionality (launching the create activity, open a selection of apps to choose an image)
-  - Jonathon Meyer  -   
+  - Jonathon Meyer  -   Included the F5 Android Library and compiled its neccesary portions
+                    -   Added in the sharing of an encoded image and sharing to the decode portion of the app
+                    -   Wrote the code neccesary to handle an incoming image and to process it
+                    -   Hooked up the activities to the F5 Android Library
+                    -   Added in the wait dialog
+                    -   General code cleanup and what not
 
